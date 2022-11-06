@@ -1,29 +1,30 @@
 import { FlatList, StyleSheet } from 'react-native';
 import PocketBase from 'pocketbase'
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+
+import { View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import { useEffect, useState } from 'react';
 import { VehiculoItem } from '../components/VehiculoItem';
+import { LineaItem } from '../components/LineaItem';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabThreeScreen({ navigation }: RootTabScreenProps<'TabThree'>) {
   const backend = new PocketBase('http://127.0.0.1:8090');
 
-  const [vehiculos, setVehiculos] = useState([]);
+  const [lineas, setlineas] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   useEffect(() => {
-    getCarros()
+    getLineas()
   })
 
-  const getCarros = () => {
-    backend.records.getList('vehiculo', 1, 50,{
-      expand: 'codigo_linea.codigo_marca, codigo_color'
+  const getLineas = () => {
+    backend.records.getList('linea', 1, 50,{
+      expand: 'codigo_marca'
 
     }).then((result: any) => {
       // success...
-      setVehiculos(result.items)
+      setlineas(result.items)
       setIsRefreshing(false)
 
     }).catch((error) => {
@@ -36,7 +37,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const onRefresh = () => {
     //set isRefreshing to true
     setIsRefreshing(true)
-    getCarros()
+    getLineas()
     // and set isRefreshing to false at the end of your callApiMethod()
 }
 
@@ -45,8 +46,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       <FlatList
         refreshing={isRefreshing}
-        data={vehiculos}
-        renderItem={VehiculoItem}
+        data={lineas}
+        renderItem={LineaItem}
         onRefresh={onRefresh}
       ></FlatList>
     </View>

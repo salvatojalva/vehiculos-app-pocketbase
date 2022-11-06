@@ -12,3 +12,11 @@ web-build/
 
 # macOS
 .DS_Store
+pocketbase
+pb_data/data.db
+pb_data/data.db-shm
+.gitignore
+pb_data/data.db-wal
+pb_data/logs.db
+pb_data/logs.db-shm
+pb_data/logs.db-wal

@@ -13,11 +13,16 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
+import ModalNewColor from '../screens/ModalNewColor';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import TabFourScreen from '../screens/TabFourScreen';
 import TabOneScreen from '../screens/TabOneScreen';
+import TabThreeScreen from '../screens/TabThreeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import ModalNewVehiculo from '../screens/ModalNewVehiculo';
+import ModalNewMarca from '../screens/ModalNewMarca';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -42,6 +47,10 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Nuevo color" component={ModalNewColor} />
+        <Stack.Screen name="Nueva marca" component={ModalNewMarca} />
+        <Stack.Screen name="Nueva linea" component={ModalNewMarca} />
+        <Stack.Screen name="Nuevo vehiculo" component={ModalNewVehiculo} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -66,16 +75,16 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Vehiculos',
+          tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => navigation.navigate('Nuevo vehiculo')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
+                name="plus"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
@@ -87,12 +96,72 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
+
+        options={({ navigation }: RootTabScreenProps<'TabTwo'>) => ({
+          title: 'Marcas',
+          tabBarIcon: ({ color }) => <TabBarIcon name="tag" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Nueva marca')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="plus"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="TabThree"
+        component={TabThreeScreen}
+        options={({ navigation }: RootTabScreenProps<'TabThree'>) => ({
+          title: 'Lineas',
+          tabBarIcon: ({ color }) => <TabBarIcon name="tags" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Nueva linea')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="plus"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="TabFour"
+        component={TabFourScreen}
+        options={({ navigation }: RootTabScreenProps<'TabFour'>) => ({
+          title: 'Colores',
+          tabBarIcon: ({ color }) => <TabBarIcon name="link" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Nuevo color')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="plus"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
       />
     </BottomTab.Navigator>
+    
   );
 }
 
@@ -103,5 +172,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={15} style={{ marginBottom: -3 }} {...props} />;
 }
